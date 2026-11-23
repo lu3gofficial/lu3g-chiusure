@@ -539,7 +539,30 @@ final class LU3G_Chiusure_Admin {
 		echo '</div><label class="lch-field lch-range"><span>' . esc_html__( 'Arrotondamento degli angoli', 'lu3g-chiusure' ) . ' <output data-radius-out>' . (int) $s['radius'] . ' px</output></span><input type="range" name="' . esc_attr( $n ) . '[radius]" min="0" max="40" step="1" value="' . (int) $s['radius'] . '" data-s="radius"></label>';
 		echo '<div class="lch-auto">';
 		self::toggle( $n . '[show_icons]', __( 'Mostra l\'icona nel popup', 'lu3g-chiusure' ), ! empty( $s['show_icons'] ), __( 'Spento: nessuna icona per nessuna chiusura. Acceso: ogni chiusura usa l\'icona scelta nell\'Elenco chiusure (della tipologia, un\'altra, un\'immagine o nessuna).', 'lu3g-chiusure' ), 'data-s="show_icons"' );
-		echo '</div></div>';
+		echo '<div class="lch-grid lch-grid--3 lch-iconcolors">';
+		self::select(
+			$n . '[icon_mode]',
+			__( 'Colore delle icone', 'lu3g-chiusure' ),
+			array(
+				'auto'   => __( 'Automatico (colore principale)', 'lu3g-chiusure' ),
+				'custom' => __( 'Personalizzato', 'lu3g-chiusure' ),
+			),
+			$s['icon_mode'],
+			__( 'Automatico: se il colore principale si legge poco sullo sfondo usa il colore del testo.', 'lu3g-chiusure' ),
+			'data-icon-mode'
+		);
+		echo '<div class="lch-field" data-icon-custom' . ( 'custom' === $s['icon_mode'] ? '' : ' hidden' ) . '><label for="lch-color-icon">' . esc_html__( 'Colore dell\'icona', 'lu3g-chiusure' ) . '</label><div><input type="text" class="lch-color" id="lch-color-icon" name="' . esc_attr( $n ) . '[icon_color]" value="' . esc_attr( $s['icon_color'] ) . '" data-default-color="#18181b"></div></div>';
+		self::select(
+			$n . '[icon_bg]',
+			__( 'Sfondo dell\'icona', 'lu3g-chiusure' ),
+			array(
+				'tint' => __( 'Riquadro colorato', 'lu3g-chiusure' ),
+				'none' => __( 'Nessuno', 'lu3g-chiusure' ),
+			),
+			$s['icon_bg'],
+			__( 'Il riquadro è una tinta leggera del colore dell\'icona.', 'lu3g-chiusure' )
+		);
+		echo '</div></div></div>';
 
 		// Pulsanti.
 		echo '<div class="lch-card"><h3>' . esc_html__( 'Pulsanti', 'lu3g-chiusure' ) . '</h3><div class="lch-grid lch-grid--3">';

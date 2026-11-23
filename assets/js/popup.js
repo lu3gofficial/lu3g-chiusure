@@ -87,9 +87,9 @@
 		// Icona: immagine della libreria media, SVG della libreria del plugin, oppure nessuna.
 		const svg = D.icons[ c.icon ] || '';
 		const hasIcon = false !== S.icons && ( c.img || svg );
-		root.className = 'lu3g-ch lu3g-ch--' + S.layout + ' lu3g-ch--' + c.type + ( hasIcon ? '' : ' lu3g-ch--noicon' ) + ( host ? ' lu3g-ch--preview' : '' );
+		root.className = 'lu3g-ch lu3g-ch--' + S.layout + ' lu3g-ch--' + c.type + ( hasIcon ? '' : ' lu3g-ch--noicon' ) + ( 'none' === S.iconBg ? ' lu3g-ch--iconflat' : '' ) + ( host ? ' lu3g-ch--preview' : '' );
 		// Variabili CSS dalle impostazioni.
-		root.style.cssText = '--lu3g-primary:' + S.primary + ';--lu3g-on-primary:' + S.onPrimary + ';--lu3g-accent:' + ( S.accent || S.primary ) + ';--lu3g-text:' + S.text +
+		root.style.cssText = '--lu3g-primary:' + S.primary + ';--lu3g-on-primary:' + S.onPrimary + ';--lu3g-accent:' + ( S.accent || S.primary ) + ';--lu3g-tint:' + ( S.tint || S.primary ) + ';--lu3g-text:' + S.text +
 			';--lu3g-bg:' + S.bg + ';--lu3g-radius:' + S.radius + 'px';
 		root.innerHTML = ( modal ? '<div class="lu3g-ch-overlay"></div>' : '' ) +
 			'<div class="lu3g-ch-box" role="dialog" aria-modal="' + modal + '" aria-labelledby="lu3g-ch-t" aria-describedby="lu3g-ch-m" tabindex="-1">' +

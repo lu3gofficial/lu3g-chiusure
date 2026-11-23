@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LU3G Chiusure 1.1.0\n"
+"Project-Id-Version: LU3G Chiusure 1.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/lu3gofficial/lu3g-chiusure/issues\n"
-"POT-Creation-Date: 2026-11-23 11:25+0100\n"
+"POT-Creation-Date: 2026-11-23 11:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,22 +18,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: includes/class-plugin.php:208
+#: includes/class-plugin.php:214
 msgid "Elementor, colore Primario del kit"
 msgstr ""
 
 #. translators: %s: slug del colore
-#: includes/class-plugin.php:226
+#: includes/class-plugin.php:232
 #, php-format
 msgid "tavolozza del tema (%s)"
 msgstr ""
 
-#: includes/class-plugin.php:238
+#: includes/class-plugin.php:244
 msgid "tema Astra, colore principale"
 msgstr ""
 
 #. translators: %s: nome dell'opzione del tema
-#: includes/class-plugin.php:245
+#: includes/class-plugin.php:251
 #, php-format
 msgid "personalizzazione del tema (%s)"
 msgstr ""
@@ -63,8 +63,8 @@ msgstr[1] ""
 msgid "Chiudi"
 msgstr ""
 
-#: includes/class-admin.php:115 includes/class-admin.php:546
-#: includes/class-frontend.php:177
+#: includes/class-admin.php:115 includes/class-admin.php:569
+#: includes/class-frontend.php:180
 msgid "Ho capito"
 msgstr ""
 
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Chiuso"
 msgstr ""
 
-#: includes/class-admin.php:260 includes/class-admin.php:610
+#: includes/class-admin.php:260 includes/class-admin.php:633
 msgid "Preavviso"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Messaggio"
 msgstr ""
 
-#: includes/class-admin.php:450 includes/class-admin.php:609
+#: includes/class-admin.php:450 includes/class-admin.php:632
 msgid "Anteprima"
 msgstr ""
 
@@ -415,112 +415,150 @@ msgid ""
 msgstr ""
 
 #: includes/class-admin.php:545
-msgid "Pulsanti"
-msgstr ""
-
-#: includes/class-admin.php:546
-msgid "Testo del pulsante di chiusura"
+msgid "Colore delle icone"
 msgstr ""
 
 #: includes/class-admin.php:547
-msgid "Pulsante CTA: testo (facoltativo)"
-msgstr ""
-
-#: includes/class-admin.php:547
-msgid "Contattaci"
+msgid "Automatico (colore principale)"
 msgstr ""
 
 #: includes/class-admin.php:548
-msgid "Pulsante CTA: link"
+msgid "Personalizzato"
 msgstr ""
 
-#: includes/class-admin.php:548
-msgid "Pagina, mailto: o tel:. Il pulsante appare solo con testo e link."
+#: includes/class-admin.php:551
+msgid ""
+"Automatico: se il colore principale si legge poco sullo sfondo usa il colore "
+"del testo."
 msgstr ""
 
-#: includes/class-admin.php:552
-msgid "Comportamento"
-msgstr ""
-
-#: includes/class-admin.php:555
-msgid "Frequenza"
+#: includes/class-admin.php:554
+msgid "Colore dell'icona"
 msgstr ""
 
 #: includes/class-admin.php:557
-msgid "Una volta per sessione"
-msgstr ""
-
-#: includes/class-admin.php:558
-msgid "Una volta al giorno"
+msgid "Sfondo dell'icona"
 msgstr ""
 
 #: includes/class-admin.php:559
-msgid "A ogni pagina"
+msgid "Riquadro colorato"
 msgstr ""
 
-#: includes/class-admin.php:562
-msgid "Preavviso e chiusura in corso contano separatamente."
+#: includes/class-admin.php:560
+msgid "Nessuno"
 msgstr ""
 
-#: includes/class-admin.php:564
-msgid "Ritardo di apparizione (secondi)"
+#: includes/class-admin.php:563
+msgid "Il riquadro è una tinta leggera del colore dell'icona."
 msgstr ""
 
-#: includes/class-admin.php:567
-msgid "Dispositivi"
+#: includes/class-admin.php:568
+msgid "Pulsanti"
 msgstr ""
 
 #: includes/class-admin.php:569
-msgid "Tutti"
+msgid "Testo del pulsante di chiusura"
 msgstr ""
 
 #: includes/class-admin.php:570
-msgid "Solo desktop"
+msgid "Pulsante CTA: testo (facoltativo)"
+msgstr ""
+
+#: includes/class-admin.php:570
+msgid "Contattaci"
 msgstr ""
 
 #: includes/class-admin.php:571
-msgid "Solo mobile"
+msgid "Pulsante CTA: link"
 msgstr ""
 
-#: includes/class-admin.php:574
-msgid "Mobile = schermo fino a 767 px."
+#: includes/class-admin.php:571
+msgid "Pagina, mailto: o tel:. Il pulsante appare solo con testo e link."
+msgstr ""
+
+#: includes/class-admin.php:575
+msgid "Comportamento"
 msgstr ""
 
 #: includes/class-admin.php:578
-msgid "Pagine"
+msgid "Frequenza"
 msgstr ""
 
 #: includes/class-admin.php:580
-msgid "Tutto il sito"
+msgid "Una volta per sessione"
 msgstr ""
 
 #: includes/class-admin.php:581
-msgid "Solo la homepage"
+msgid "Una volta al giorno"
 msgstr ""
 
 #: includes/class-admin.php:582
+msgid "A ogni pagina"
+msgstr ""
+
+#: includes/class-admin.php:585
+msgid "Preavviso e chiusura in corso contano separatamente."
+msgstr ""
+
+#: includes/class-admin.php:587
+msgid "Ritardo di apparizione (secondi)"
+msgstr ""
+
+#: includes/class-admin.php:590
+msgid "Dispositivi"
+msgstr ""
+
+#: includes/class-admin.php:592
+msgid "Tutti"
+msgstr ""
+
+#: includes/class-admin.php:593
+msgid "Solo desktop"
+msgstr ""
+
+#: includes/class-admin.php:594
+msgid "Solo mobile"
+msgstr ""
+
+#: includes/class-admin.php:597
+msgid "Mobile = schermo fino a 767 px."
+msgstr ""
+
+#: includes/class-admin.php:601
+msgid "Pagine"
+msgstr ""
+
+#: includes/class-admin.php:603
+msgid "Tutto il sito"
+msgstr ""
+
+#: includes/class-admin.php:604
+msgid "Solo la homepage"
+msgstr ""
+
+#: includes/class-admin.php:605
 msgid "Solo le pagine indicate"
 msgstr ""
 
-#: includes/class-admin.php:583
+#: includes/class-admin.php:606
 msgid "Tutte tranne le pagine indicate"
 msgstr ""
 
-#: includes/class-admin.php:590
+#: includes/class-admin.php:613
 msgid "ID delle pagine"
 msgstr ""
 
-#: includes/class-admin.php:590
+#: includes/class-admin.php:613
 msgid ""
 "Separati da virgola, es. 12, 345. L'ID si legge nell'indirizzo di modifica "
 "della pagina (post=12)."
 msgstr ""
 
-#: includes/class-admin.php:594
+#: includes/class-admin.php:617
 msgid "Dati strutturati per Google"
 msgstr ""
 
-#: includes/class-admin.php:595
+#: includes/class-admin.php:618
 msgid ""
 "Aggiunge alla homepage un JSON-LD con gli orari speciali "
 "(specialOpeningHoursSpecification) per le chiusure dei prossimi 12 mesi. Se "
@@ -528,41 +566,41 @@ msgid ""
 "si contraddicano."
 msgstr ""
 
-#: includes/class-admin.php:596
+#: includes/class-admin.php:619
 msgid "Pubblica le chiusure nei dati strutturati"
 msgstr ""
 
-#: includes/class-admin.php:598
+#: includes/class-admin.php:621
 msgid "Nome dell'attività"
 msgstr ""
 
-#: includes/class-admin.php:599
+#: includes/class-admin.php:622
 msgid "Tipo Schema.org"
 msgstr ""
 
-#: includes/class-admin.php:599
+#: includes/class-admin.php:622
 msgid ""
 "LocalBusiness va bene per tutti; più preciso: Restaurant, Store, "
 "MedicalBusiness..."
 msgstr ""
 
-#: includes/class-admin.php:610
+#: includes/class-admin.php:633
 msgid "Fase"
 msgstr ""
 
-#: includes/class-admin.php:610
+#: includes/class-admin.php:633
 msgid "In corso"
 msgstr ""
 
-#: includes/class-admin.php:611
+#: includes/class-admin.php:634
 msgid "Chiusura da mostrare"
 msgstr ""
 
-#: includes/class-admin.php:613
+#: includes/class-admin.php:636
 msgid "Prova a tutto schermo"
 msgstr ""
 
-#: includes/class-admin.php:614
+#: includes/class-admin.php:637
 msgid ""
 "L'anteprima si aggiorna mentre modifichi. \"Prova a tutto schermo\" apre il "
 "popup vero in questa pagina: provalo anche con Tab ed Esc."

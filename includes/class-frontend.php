@@ -168,8 +168,11 @@ final class LU3G_Chiusure_Frontend {
 			'layout'    => $s['layout'],
 			'primary'   => $primary,
 			'onPrimary' => self::contrast( $primary ),
-			// Icona: colore principale se si legge sullo sfondo (contrasto ≥ 3:1), altrimenti il colore del testo.
-			'accent'    => self::ratio( $primary, (string) $s['bg'] ) >= 3 ? $primary : (string) $s['text'],
+			// Icona: colore scelto, oppure (automatico) il principale se si legge sullo sfondo (contrasto ≥ 3:1), altrimenti
+			// il colore del testo. Il riquadro dietro l'icona è una tinta leggera del colore scelto o del principale.
+			'accent'    => 'custom' === $s['icon_mode'] ? (string) $s['icon_color'] : ( self::ratio( $primary, (string) $s['bg'] ) >= 3 ? $primary : (string) $s['text'] ),
+			'tint'      => 'custom' === $s['icon_mode'] ? (string) $s['icon_color'] : $primary,
+			'iconBg'    => $s['icon_bg'],
 			'icons'     => ! empty( $s['show_icons'] ),
 			'text'      => $s['text'],
 			'bg'        => $s['bg'],

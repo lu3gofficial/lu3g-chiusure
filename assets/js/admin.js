@@ -485,6 +485,8 @@
 		} );
 
 		const hex = ( v, d ) => ( /^#([0-9a-f]{3}){1,2}$/i.test( v ) ? v : d );
+		const iconCustom = () => 'custom' === g( 'icon_mode' ).value;
+		const iconColor = () => hex( g( 'icon_color' ).value, '#18181b' );
 		const live = () => {
 			const s = cfg.settings;
 			const layout = ( $( '[name="settings[layout]"]:checked', form ) || {} ).value || 'modal';
@@ -498,7 +500,9 @@
 				layout,
 				primary,
 				onPrimary: contrast( primary ),
-				accent: ratio( primary, bg ) >= 3 ? primary : text,
+				accent: iconCustom() ? iconColor() : ( ratio( primary, bg ) >= 3 ? primary : text ),
+				tint: iconCustom() ? iconColor() : primary,
+				iconBg: g( 'icon_bg' ).value,
 				text,
 				bg,
 				radius: +g( 'radius' ).value || 0,
@@ -549,6 +553,12 @@
 		const autoBox = $( '[data-primary-auto]', form );
 		autoBox.addEventListener( 'change', () => {
 			$( '[data-primary-custom]', form ).hidden = autoBox.checked;
+		} );
+
+		// Colore dell'icona visibile solo con "Personalizzato".
+		const iconMode = $( '[data-icon-mode]', form );
+		iconMode.addEventListener( 'change', () => {
+			$( '[data-icon-custom]', form ).hidden = 'custom' !== iconMode.value;
 		} );
 
 		// "ID delle pagine" solo per Solo/Tutte tranne.

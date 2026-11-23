@@ -92,6 +92,9 @@ final class LU3G_Chiusure_Plugin {
 			'primary_mode'   => 'auto',    // auto = colore principale del sito (Elementor, tema) | custom = quello scelto.
 			'primary'        => '#0f766e',
 			'show_icons'     => true,
+			'icon_mode'      => 'auto',    // auto = colore principale (o del testo se poco leggibile) | custom = icon_color.
+			'icon_color'     => '#18181b',
+			'icon_bg'        => 'tint',    // tint = riquadro colorato dietro l'icona | none = senza riquadro.
 			'text'           => '#18181b',
 			'bg'             => '#ffffff',
 			'radius'         => 18,
@@ -137,6 +140,9 @@ final class LU3G_Chiusure_Plugin {
 		$out['primary_mode'] = ! empty( $in['primary_mode'] ) && 'custom' !== $in['primary_mode'] ? 'auto' : 'custom';
 		$out['primary']   = sanitize_hex_color( $in['primary'] ?? '' ) ?: $d['primary'];
 		$out['show_icons'] = ! empty( $in['show_icons'] );
+		$out['icon_mode']  = self::choice( $in['icon_mode'] ?? '', array( 'auto', 'custom' ), $d['icon_mode'] );
+		$out['icon_color'] = sanitize_hex_color( $in['icon_color'] ?? '' ) ?: $d['icon_color'];
+		$out['icon_bg']    = self::choice( $in['icon_bg'] ?? '', array( 'tint', 'none' ), $d['icon_bg'] );
 		$out['text']      = sanitize_hex_color( $in['text'] ?? '' ) ?: $d['text'];
 		$out['bg']        = sanitize_hex_color( $in['bg'] ?? '' ) ?: $d['bg'];
 		$out['radius']    = max( 0, min( 40, absint( $in['radius'] ?? $d['radius'] ) ) );

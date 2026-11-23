@@ -232,3 +232,4 @@
 .lch-found { display: flex; align-items: center; gap: 8px; margin: 10px 0 0 52px !important; color: var(--muted); }
 .lch-swatch { flex: 0 0 auto; width: 18px; height: 18px; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
 .lch-field[hidden] { display: none; }
+.lch-iconcolors { margin-top: 14px; }

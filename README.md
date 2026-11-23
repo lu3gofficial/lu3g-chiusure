@@ -47,8 +47,10 @@ W3 Total Cache, WP Super Cache, SiteGround, WP Fastest Cache e Breeze (`lu3g_chi
   trova niente usa il colore scelto. Filtro `lu3g_chiusure_site_color`. Il colore si legge a ogni pagina: cambiandolo
   in Elementor cambia anche il popup (dopo lo svuotamento della cache di pagina).
 - **Icone**: per ogni chiusura quella della tipologia, una delle 20 della libreria, un'immagine della libreria media
-  (decorativa, alt vuoto) o nessuna; "Mostra l'icona nel popup" le spegne tutte. L'icona usa il colore principale
-  se ha contrasto ≥ 3:1 con lo sfondo, altrimenti il colore del testo.
+  (decorativa, alt vuoto) o nessuna; "Mostra l'icona nel popup" le spegne tutte.
+- **Colore delle icone**: automatico = colore principale se ha contrasto ≥ 3:1 con lo sfondo, altrimenti il colore del
+  testo; personalizzato = colore scelto (vale anche per la tinta del riquadro). "Sfondo dell'icona": riquadro colorato
+  o nessuno.
 
 ## Regole delle date
 - Non ricorrente: un periodo; riapertura vuota = giorno dopo la fine.

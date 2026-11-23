@@ -59,13 +59,17 @@
 	height: 52px;
 	border-radius: 16px;
 	background: var(--lu3g-primary, #0f766e);
-	background: color-mix(in srgb, var(--lu3g-primary, #0f766e) 13%, transparent);
+	background: color-mix(in srgb, var(--lu3g-tint, var(--lu3g-primary, #0f766e)) 13%, transparent);
 	color: var(--lu3g-accent, var(--lu3g-primary, #0f766e)); /* accento = principale se leggibile sullo sfondo */
 }
 .lu3g-ch .lu3g-ch-icon svg { display: block; width: 28px; height: 28px; }
 /* Immagine scelta dalla libreria media: occupa il riquadro dell'icona senza essere tagliata. */
 .lu3g-ch .lu3g-ch-icon img { display: block; width: 76%; height: 76%; margin: 0; border: 0; border-radius: 8px; object-fit: contain; }
 .lu3g-ch--noicon .lu3g-ch-title { padding-top: 0; }
+/* "Sfondo dell'icona: nessuno": icona senza riquadro, un po' più grande. */
+.lu3g-ch--iconflat .lu3g-ch-icon { background: none; width: auto; min-width: 40px; }
+.lu3g-ch--iconflat .lu3g-ch-icon svg { width: 34px; height: 34px; }
+.lu3g-ch--iconflat .lu3g-ch-icon img { width: 44px; height: 44px; }
 .lu3g-ch-body { flex: 1 1 auto; min-width: 0; }
 .lu3g-ch .lu3g-ch-title {
 	margin: 0 0 6px;

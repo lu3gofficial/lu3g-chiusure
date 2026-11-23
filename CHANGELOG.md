@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+- Colore delle icone: automatico (come prima) o personalizzato con il selettore colore; il riquadro dietro l'icona
+  diventa una tinta del colore scelto.
+- Sfondo dell'icona: riquadro colorato oppure nessuno (icona più grande, senza riquadro).
+
 ## 1.1.0
 - Colore principale automatico: "Usa il colore principale del sito" lo prende dal colore Primario del kit di Elementor,
   dalla tavolozza del tema (primary, accent, accent-1, brand) o dalle personalizzazioni di Astra/JupiterX e simili.
