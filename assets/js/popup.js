@@ -84,14 +84,17 @@
 		const fill = ( s ) => String( s || '' ).replace( /\{(inizio|fine|riapertura|nome)\}/g, ( m, k ) => vals[ k ] );
 
 		const root = doc.createElement( 'div' );
-		root.className = 'lu3g-ch lu3g-ch--' + S.layout + ' lu3g-ch--' + c.type + ( host ? ' lu3g-ch--preview' : '' );
+		// Icona: immagine della libreria media, SVG della libreria del plugin, oppure nessuna.
+		const svg = D.icons[ c.icon ] || '';
+		const hasIcon = false !== S.icons && ( c.img || svg );
+		root.className = 'lu3g-ch lu3g-ch--' + S.layout + ' lu3g-ch--' + c.type + ( hasIcon ? '' : ' lu3g-ch--noicon' ) + ( host ? ' lu3g-ch--preview' : '' );
 		// Variabili CSS dalle impostazioni.
-		root.style.cssText = '--lu3g-primary:' + S.primary + ';--lu3g-on-primary:' + S.onPrimary + ';--lu3g-text:' + S.text +
+		root.style.cssText = '--lu3g-primary:' + S.primary + ';--lu3g-on-primary:' + S.onPrimary + ';--lu3g-accent:' + ( S.accent || S.primary ) + ';--lu3g-text:' + S.text +
 			';--lu3g-bg:' + S.bg + ';--lu3g-radius:' + S.radius + 'px';
 		root.innerHTML = ( modal ? '<div class="lu3g-ch-overlay"></div>' : '' ) +
 			'<div class="lu3g-ch-box" role="dialog" aria-modal="' + modal + '" aria-labelledby="lu3g-ch-t" aria-describedby="lu3g-ch-m" tabindex="-1">' +
 			'<button type="button" class="lu3g-ch-x"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
-			'<span class="lu3g-ch-icon" aria-hidden="true">' + ( D.icons[ c.type ] || '' ) + '</span>' +
+			( hasIcon ? '<span class="lu3g-ch-icon" aria-hidden="true">' + ( c.img ? '' : svg ) + '</span>' : '' ) +
 			'<div class="lu3g-ch-body"><p class="lu3g-ch-title" id="lu3g-ch-t"></p><p class="lu3g-ch-msg" id="lu3g-ch-m"></p><div class="lu3g-ch-actions"></div></div></div>';
 
 		const q = ( s ) => root.querySelector( s );
@@ -101,6 +104,12 @@
 		q( '.lu3g-ch-title' ).textContent = fill( notice ? c.nt : c.at );
 		q( '.lu3g-ch-msg' ).textContent = fill( notice ? c.nm : c.am );
 		x.setAttribute( 'aria-label', D.i18n.close );
+		if ( hasIcon && c.img ) {
+			const im = doc.createElement( 'img' );
+			im.src = c.img;
+			im.alt = '';
+			q( '.lu3g-ch-icon' ).appendChild( im );
+		}
 		const acts = q( '.lu3g-ch-actions' );
 		if ( S.ctaText && S.ctaUrl ) {
 			const a = doc.createElement( 'a' );

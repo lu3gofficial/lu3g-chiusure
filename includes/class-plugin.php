@@ -89,7 +89,9 @@ final class LU3G_Chiusure_Plugin {
 	public static function default_settings(): array {
 		return array(
 			'layout'         => 'modal',   // modal | top | bottom | corner.
+			'primary_mode'   => 'auto',    // auto = colore principale del sito (Elementor, tema) | custom = quello scelto.
 			'primary'        => '#0f766e',
+			'show_icons'     => true,
 			'text'           => '#18181b',
 			'bg'             => '#ffffff',
 			'radius'         => 18,
@@ -112,7 +114,12 @@ final class LU3G_Chiusure_Plugin {
 	 */
 	public static function settings(): array {
 		$saved = get_option( self::SETTINGS, array() );
-		$s     = array_merge( self::default_settings(), is_array( $saved ) ? $saved : array() );
+		$saved = is_array( $saved ) ? $saved : array();
+		// Impostazioni salvate con la 1.0.0 (senza primary_mode): il colore scelto allora resta quello.
+		if ( $saved && ! isset( $saved['primary_mode'] ) ) {
+			$saved['primary_mode'] = 'custom';
+		}
+		$s = array_merge( self::default_settings(), $saved );
 		return (array) apply_filters( 'lu3g_chiusure_settings', $s );
 	}
 
@@ -126,7 +133,10 @@ final class LU3G_Chiusure_Plugin {
 		$out = array();
 
 		$out['layout']    = self::choice( $in['layout'] ?? '', array( 'modal', 'top', 'bottom', 'corner' ), $d['layout'] );
+		// Interruttore "Usa il colore principale del sito": spuntato = auto, assente = colore scelto.
+		$out['primary_mode'] = ! empty( $in['primary_mode'] ) && 'custom' !== $in['primary_mode'] ? 'auto' : 'custom';
 		$out['primary']   = sanitize_hex_color( $in['primary'] ?? '' ) ?: $d['primary'];
+		$out['show_icons'] = ! empty( $in['show_icons'] );
 		$out['text']      = sanitize_hex_color( $in['text'] ?? '' ) ?: $d['text'];
 		$out['bg']        = sanitize_hex_color( $in['bg'] ?? '' ) ?: $d['bg'];
 		$out['radius']    = max( 0, min( 40, absint( $in['radius'] ?? $d['radius'] ) ) );
@@ -168,6 +178,119 @@ final class LU3G_Chiusure_Plugin {
 	public static function choice( $value, array $allowed, string $default ): string {
 		$value = sanitize_key( (string) $value );
 		return in_array( $value, $allowed, true ) ? $value : $default;
+	}
+
+	/* ================================================================ colore del sito */
+
+	/**
+	 * Colore principale del sito, cercato in quest'ordine:
+	 * 1. Elementor: colore "Primario" del kit attivo (Sito → Colori globali);
+	 * 2. tema a blocchi / theme.json: colore della tavolozza con slug primary, accent, accent-1, brand;
+	 * 3. personalizzazioni dei temi più usati (Astra, JupiterX, theme_mod primary_color/accent_color...).
+	 * Il colore predefinito di Elementor (#6EC1E4, mai personalizzato) vale solo se non c'è altro.
+	 * Filtrabile con lu3g_chiusure_site_color.
+	 *
+	 * @return array|null [ 'color' => '#rrggbb', 'source' => testo per il pannello ] o null.
+	 */
+	public static function site_color(): ?array {
+		static $cache = false;
+		if ( false !== $cache ) {
+			return $cache;
+		}
+		$found = array();
+
+		// 1. Elementor.
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			$kit  = (int) get_option( 'elementor_active_kit' );
+			$meta = $kit ? get_post_meta( $kit, '_elementor_page_settings', true ) : array();
+			foreach ( (array) ( $meta['system_colors'] ?? array() ) as $row ) {
+				if ( 'primary' === ( $row['_id'] ?? '' ) && ( $hex = self::hex( (string) ( $row['color'] ?? '' ) ) ) ) {
+					$found[] = array( 'color' => $hex, 'source' => __( 'Elementor, colore Primario del kit', 'lu3g-chiusure' ), 'weak' => '#6ec1e4' === $hex );
+				}
+			}
+		}
+
+		// 2. theme.json (temi a blocchi e classici con theme.json), anche la tavolozza personalizzata nell'editor del sito.
+		if ( function_exists( 'wp_get_global_settings' ) ) {
+			$palette = (array) wp_get_global_settings( array( 'color', 'palette' ) );
+			foreach ( array( 'custom', 'theme' ) as $origin ) {
+				$by_slug = array();
+				foreach ( (array) ( $palette[ $origin ] ?? array() ) as $row ) {
+					if ( isset( $row['slug'] ) && ( $hex = self::hex( (string) ( $row['color'] ?? '' ) ) ) ) {
+						$by_slug[ $row['slug'] ] = $hex;
+					}
+				}
+				foreach ( array( 'primary', 'accent', 'accent-1', 'brand' ) as $slug ) {
+					if ( isset( $by_slug[ $slug ] ) ) {
+						/* translators: %s: slug del colore */
+						$found[] = array( 'color' => $by_slug[ $slug ], 'source' => sprintf( __( 'tavolozza del tema (%s)', 'lu3g-chiusure' ), $slug ), 'weak' => false );
+						break 2;
+					}
+				}
+			}
+		}
+
+		// 3. Personalizzazioni dei temi.
+		$astra = get_option( 'astra-settings' );
+		if ( is_array( $astra ) ) {
+			$hex = self::hex( (string) ( $astra['global-color-palette']['palette'][0] ?? $astra['theme-color'] ?? '' ) );
+			if ( $hex ) {
+				$found[] = array( 'color' => $hex, 'source' => __( 'tema Astra, colore principale', 'lu3g-chiusure' ), 'weak' => false );
+			}
+		}
+		foreach ( array( 'jupiterx_primary_color', 'primary_color', 'accent_color', 'theme_color', 'link_color' ) as $mod ) {
+			$hex = self::hex( (string) get_theme_mod( $mod, '' ) );
+			if ( $hex ) {
+				/* translators: %s: nome dell'opzione del tema */
+				$found[] = array( 'color' => $hex, 'source' => sprintf( __( 'personalizzazione del tema (%s)', 'lu3g-chiusure' ), $mod ), 'weak' => false );
+				break;
+			}
+		}
+
+		$pick = null;
+		foreach ( $found as $f ) {
+			if ( ! $f['weak'] ) {
+				$pick = $f;
+				break;
+			}
+		}
+		$pick = $pick ?? ( $found[0] ?? null );
+		if ( $pick ) {
+			unset( $pick['weak'] );
+		}
+		$cache = apply_filters( 'lu3g_chiusure_site_color', $pick );
+		return $cache;
+	}
+
+	/**
+	 * "#abc", "#aabbcc" o "#aabbccdd" (trasparenza ignorata) → "#aabbcc"; altrimenti stringa vuota.
+	 *
+	 * @param string $v Colore.
+	 */
+	public static function hex( string $v ): string {
+		$v = strtolower( trim( $v ) );
+		if ( preg_match( '/^#([0-9a-f]{6})(?:[0-9a-f]{2})?$/', $v, $m ) ) {
+			return '#' . $m[1];
+		}
+		if ( preg_match( '/^#([0-9a-f])([0-9a-f])([0-9a-f])$/', $v, $m ) ) {
+			return '#' . $m[1] . $m[1] . $m[2] . $m[2] . $m[3] . $m[3];
+		}
+		return '';
+	}
+
+	/**
+	 * Colore principale effettivo: quello del sito in modalità automatica (se trovato), altrimenti quello scelto.
+	 *
+	 * @param array $s Impostazioni.
+	 */
+	public static function primary_color( array $s ): string {
+		if ( 'auto' === ( $s['primary_mode'] ?? 'custom' ) ) {
+			$site = self::site_color();
+			if ( $site ) {
+				return $site['color'];
+			}
+		}
+		return (string) $s['primary'];
 	}
 
 	/* ================================================================ WPML */

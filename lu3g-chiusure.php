@@ -3,7 +3,7 @@
  * Plugin Name:       LU3G Chiusure
  * Plugin URI:        https://github.com/lu3gofficial/lu3g-chiusure
  * Description:       Chiusure dell'attività (estive, natalizie, Pasqua, ponti, straordinarie) mostrate ai visitatori con un popup leggero, compatibile con la cache delle pagine, e nei dati strutturati di Google.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            LU3G Agenzia Web
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LU3G_CHIUSURE_VERSION', '1.0.0' );
+define( 'LU3G_CHIUSURE_VERSION', '1.1.0' );
 define( 'LU3G_CHIUSURE_FILE', __FILE__ );
 define( 'LU3G_CHIUSURE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LU3G_CHIUSURE_URL', plugin_dir_url( __FILE__ ) );

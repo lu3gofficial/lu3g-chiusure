@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+- Colore principale automatico: "Usa il colore principale del sito" lo prende dal colore Primario del kit di Elementor,
+  dalla tavolozza del tema (primary, accent, accent-1, brand) o dalle personalizzazioni di Astra/JupiterX e simili.
+  Si può spegnere per scegliere un colore diverso; chi aveva già salvato le impostazioni con la 1.0.0 mantiene il suo colore.
+- Icone: per ogni chiusura quella della tipologia, un'altra tra 20 icone della libreria, un'immagine dalla libreria
+  media oppure nessuna; interruttore generale "Mostra l'icona nel popup".
+- Se il colore principale è troppo chiaro sullo sfondo (contrasto sotto 3:1) l'icona usa il colore del testo.
+
 ## 1.0.0
 - Prima versione: elenco delle chiusure (estiva, natalizia, Pasqua, ponte, straordinaria) con date, riapertura,
   ricorrenza annuale anche a cavallo d'anno (Pasqua che segue la data della Pasqua di ogni anno), giorni di preavviso,

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: LU3G Chiusure 1.0.0\n"
+"Project-Id-Version: LU3G Chiusure 1.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/lu3gofficial/lu3g-chiusure/issues\n"
-"POT-Creation-Date: 2026-11-23 11:11+0100\n"
+"POT-Creation-Date: 2026-11-23 11:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: includes/class-plugin.php:208
+msgid "Elementor, colore Primario del kit"
+msgstr ""
+
+#. translators: %s: slug del colore
+#: includes/class-plugin.php:226
+#, php-format
+msgid "tavolozza del tema (%s)"
+msgstr ""
+
+#: includes/class-plugin.php:238
+msgid "tema Astra, colore principale"
+msgstr ""
+
+#. translators: %s: nome dell'opzione del tema
+#: includes/class-plugin.php:245
+#, php-format
+msgid "personalizzazione del tema (%s)"
+msgstr ""
+
 #: includes/class-admin.php:40 includes/class-admin.php:41
-#: includes/class-admin.php:252 includes/class-admin.php:256
+#: includes/class-admin.php:266 includes/class-admin.php:270
 msgid "Chiusure"
 msgstr ""
 
@@ -27,398 +47,480 @@ msgstr ""
 msgid "Impostazioni"
 msgstr ""
 
-#: includes/class-admin.php:90
+#: includes/class-admin.php:91
 msgid "Impostazioni salvate."
 msgstr ""
 
 #. translators: %d: numero di chiusure
-#: includes/class-admin.php:95
+#: includes/class-admin.php:96
 #, php-format
 msgid "%d chiusura senza date: non verrà mostrata."
 msgid_plural "%d chiusure senza date: non verranno mostrate."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-admin.php:105 includes/class-frontend.php:146
+#: includes/class-admin.php:114 includes/class-frontend.php:151
 msgid "Chiudi"
 msgstr ""
 
-#: includes/class-admin.php:106 includes/class-admin.php:482
-#: includes/class-frontend.php:168
+#: includes/class-admin.php:115 includes/class-admin.php:546
+#: includes/class-frontend.php:177
 msgid "Ho capito"
 msgstr ""
 
-#: includes/class-admin.php:114
+#: includes/class-admin.php:123
 msgid "Eliminare questa chiusura? Diventa definitivo quando salvi."
 msgstr ""
 
-#: includes/class-admin.php:115 includes/class-admin.php:394
+#: includes/class-admin.php:124 includes/class-admin.php:408
 msgid "Nuova chiusura"
 msgstr ""
 
-#: includes/class-admin.php:116
+#: includes/class-admin.php:125
 msgid "ogni anno"
 msgstr ""
 
-#: includes/class-admin.php:117
+#: includes/class-admin.php:126
 msgid "Inserisci le date di inizio e fine."
 msgstr ""
 
-#: includes/class-admin.php:118 includes/class-admin.php:284
+#: includes/class-admin.php:127 includes/class-admin.php:298
 msgid "Modifiche non salvate"
 msgstr ""
 
-#: includes/class-admin.php:170
+#: includes/class-admin.php:128
+msgid "Scegli l'immagine dell'icona"
+msgstr ""
+
+#: includes/class-admin.php:129
+msgid "Usa questa immagine"
+msgstr ""
+
+#: includes/class-admin.php:184
 msgid "Non hai i permessi per modificare le chiusure."
 msgstr ""
 
-#: includes/class-admin.php:230 includes/class-admin.php:351
+#: includes/class-admin.php:244 includes/class-admin.php:365
 msgid "Elenco chiusure"
 msgstr ""
 
-#: includes/class-admin.php:231
+#: includes/class-admin.php:245
 msgid "Aspetto e comportamento"
 msgstr ""
 
-#: includes/class-admin.php:246
+#: includes/class-admin.php:260
 msgid "Chiuso"
 msgstr ""
 
-#: includes/class-admin.php:246 includes/class-admin.php:546
+#: includes/class-admin.php:260 includes/class-admin.php:610
 msgid "Preavviso"
 msgstr ""
 
-#: includes/class-admin.php:248
+#: includes/class-admin.php:262
 msgid "Aperto"
 msgstr ""
 
-#: includes/class-admin.php:254
+#: includes/class-admin.php:268
 msgid "Chiusure dell'attività"
 msgstr ""
 
-#: includes/class-admin.php:255
+#: includes/class-admin.php:269
 msgid ""
 "Ferie, feste, ponti e chiusure straordinarie: i visitatori le vedono in un "
 "popup leggero, con il preavviso che scegli. Funziona anche con le pagine in "
 "cache."
 msgstr ""
 
-#: includes/class-admin.php:256
+#: includes/class-admin.php:270
 msgid "Attive"
 msgstr ""
 
-#: includes/class-admin.php:256
+#: includes/class-admin.php:270
 msgid "Oggi"
 msgstr ""
 
-#: includes/class-admin.php:259
+#: includes/class-admin.php:273
 msgid "Sezioni"
 msgstr ""
 
-#: includes/class-admin.php:284
+#: includes/class-admin.php:298
 msgid "Salva"
 msgstr ""
 
-#: includes/class-admin.php:352
+#: includes/class-admin.php:366
 msgid ""
 "Il popup mostra prima una chiusura in corso, altrimenti il preavviso della "
 "più vicina. Trascina le righe o usa le frecce per riordinarle."
 msgstr ""
 
-#: includes/class-admin.php:353
+#: includes/class-admin.php:367
 msgid "Aggiungi chiusura"
 msgstr ""
 
-#: includes/class-admin.php:360
+#: includes/class-admin.php:374
 msgid "Nessuna chiusura. Aggiungi la prima: ferie estive, Natale, un ponte..."
 msgstr ""
 
-#: includes/class-admin.php:366
+#: includes/class-admin.php:380
 msgid "Segnaposto nei testi"
 msgstr ""
 
-#: includes/class-admin.php:367
+#: includes/class-admin.php:381
 msgid "Nei titoli e nei messaggi puoi usare:"
 msgstr ""
 
 #. translators: %s: link a Impostazioni → Generali
-#: includes/class-admin.php:369
+#: includes/class-admin.php:383
 #, php-format
 msgid ""
 "Le date usano il formato di WordPress (%s). Lascia un campo vuoto per usare "
 "il testo predefinito della tipologia, mostrato in grigio."
 msgstr ""
 
-#: includes/class-admin.php:369
+#: includes/class-admin.php:383
 msgid "Impostazioni → Generali"
 msgstr ""
 
-#: includes/class-admin.php:387
+#: includes/class-admin.php:401
 msgid "Nuova"
 msgstr ""
 
-#: includes/class-admin.php:392
+#: includes/class-admin.php:406
 msgid "Trascina per riordinare"
 msgstr ""
 
-#: includes/class-admin.php:396
+#: includes/class-admin.php:410
 msgid "Attiva o disattiva"
 msgstr ""
 
-#: includes/class-admin.php:396
+#: includes/class-admin.php:410
 msgid "Chiusura attiva"
 msgstr ""
 
-#: includes/class-admin.php:398
+#: includes/class-admin.php:412
 msgid "Sposta su"
 msgstr ""
 
-#: includes/class-admin.php:399
+#: includes/class-admin.php:413
 msgid "Sposta giù"
 msgstr ""
 
-#: includes/class-admin.php:400
+#: includes/class-admin.php:414
 msgid "Elimina"
 msgstr ""
 
-#: includes/class-admin.php:406
+#: includes/class-admin.php:420
 msgid "Nome interno"
 msgstr ""
 
-#: includes/class-admin.php:406
+#: includes/class-admin.php:420
 msgid "Es. \"Ferie estive\". Usato anche dal segnaposto {nome}."
 msgstr ""
 
-#: includes/class-admin.php:406
+#: includes/class-admin.php:420
 msgid "Ferie estive"
 msgstr ""
 
-#: includes/class-admin.php:411
+#: includes/class-admin.php:425
 msgid "Tipologia"
 msgstr ""
 
-#: includes/class-admin.php:411
+#: includes/class-admin.php:425
 msgid "Sceglie icona e testi predefiniti."
 msgstr ""
 
-#: includes/class-admin.php:412
+#: includes/class-admin.php:426
 msgid "Giorni di preavviso"
 msgstr ""
 
-#: includes/class-admin.php:412
+#: includes/class-admin.php:426
 msgid "Quanti giorni prima mostrare l'avviso. 0 = nessun preavviso."
 msgstr ""
 
-#: includes/class-admin.php:413
+#: includes/class-admin.php:427
 msgid "Data inizio"
 msgstr ""
 
-#: includes/class-admin.php:414
+#: includes/class-admin.php:428
 msgid "Data fine"
 msgstr ""
 
-#: includes/class-admin.php:414
+#: includes/class-admin.php:428
 msgid "Ultimo giorno di chiusura."
 msgstr ""
 
-#: includes/class-admin.php:415
+#: includes/class-admin.php:429
 msgid "Data di riapertura (facoltativa)"
 msgstr ""
 
-#: includes/class-admin.php:415
+#: includes/class-admin.php:429
 msgid "Vuota = il giorno dopo la fine."
 msgstr ""
 
-#: includes/class-admin.php:417
+#: includes/class-admin.php:431
 msgid "Ricorrenza annuale"
 msgstr ""
 
-#: includes/class-admin.php:417
+#: includes/class-admin.php:431
 msgid ""
 "Vale ogni anno: contano solo giorno e mese, anche a cavallo d'anno (es. "
 "24/12 → 06/01). Con la tipologia Pasqua le date seguono la Pasqua di ogni "
 "anno."
 msgstr ""
 
-#: includes/class-admin.php:422
+#: includes/class-admin.php:437
 msgid "Fase \"preavviso\""
 msgstr ""
 
-#: includes/class-admin.php:423
+#: includes/class-admin.php:438
 msgid "Fase \"in corso\""
 msgstr ""
 
-#: includes/class-admin.php:426
+#: includes/class-admin.php:441
 msgid "Titolo"
 msgstr ""
 
-#: includes/class-admin.php:429
+#: includes/class-admin.php:444
 msgid "Messaggio"
 msgstr ""
 
-#: includes/class-admin.php:435 includes/class-admin.php:545
+#: includes/class-admin.php:450 includes/class-admin.php:609
 msgid "Anteprima"
 msgstr ""
 
-#: includes/class-admin.php:449
-msgid "Layout"
+#: includes/class-admin.php:477
+msgid "Icona"
 msgstr ""
 
-#: includes/class-admin.php:451
-msgid "Modale centrato"
-msgstr ""
-
-#: includes/class-admin.php:451
-msgid "Su mobile diventa un pannello dal basso."
-msgstr ""
-
-#: includes/class-admin.php:452
-msgid "Barra in alto"
-msgstr ""
-
-#: includes/class-admin.php:452 includes/class-admin.php:453
-msgid "Non copre la pagina."
-msgstr ""
-
-#: includes/class-admin.php:453
-msgid "Barra in basso"
-msgstr ""
-
-#: includes/class-admin.php:454
-msgid "Card nell'angolo"
-msgstr ""
-
-#: includes/class-admin.php:454
-msgid "In basso a destra, discreta."
-msgstr ""
-
-#: includes/class-admin.php:469
-msgid "Colori e forma"
-msgstr ""
-
-#: includes/class-admin.php:471
-msgid "Colore principale"
-msgstr ""
-
-#: includes/class-admin.php:472
-msgid "Colore del testo"
-msgstr ""
-
-#: includes/class-admin.php:473
-msgid "Colore di sfondo"
+#: includes/class-admin.php:477
+msgid ""
+"Quella della tipologia, un'altra della libreria, un'immagine tua o nessuna."
 msgstr ""
 
 #: includes/class-admin.php:478
-msgid "Arrotondamento degli angoli"
+msgid "Della tipologia"
 msgstr ""
 
-#: includes/class-admin.php:481
-msgid "Pulsanti"
+#: includes/class-admin.php:478
+msgid "Auto"
 msgstr ""
 
-#: includes/class-admin.php:482
-msgid "Testo del pulsante di chiusura"
+#: includes/class-admin.php:479
+msgid "Nessuna icona"
+msgstr ""
+
+#: includes/class-admin.php:479
+msgid "Nessuna"
 msgstr ""
 
 #: includes/class-admin.php:483
-msgid "Pulsante CTA: testo (facoltativo)"
+msgid "Immagine dalla libreria media"
 msgstr ""
 
 #: includes/class-admin.php:483
-msgid "Contattaci"
+msgid "Immagine"
 msgstr ""
 
-#: includes/class-admin.php:484
-msgid "Pulsante CTA: link"
+#: includes/class-admin.php:486
+msgid "Scegli o carica l'immagine"
 msgstr ""
 
-#: includes/class-admin.php:484
-msgid "Pagina, mailto: o tel:. Il pulsante appare solo con testo e link."
-msgstr ""
-
-#: includes/class-admin.php:488
-msgid "Comportamento"
-msgstr ""
-
-#: includes/class-admin.php:491
-msgid "Frequenza"
-msgstr ""
-
-#: includes/class-admin.php:493
-msgid "Una volta per sessione"
-msgstr ""
-
-#: includes/class-admin.php:494
-msgid "Una volta al giorno"
-msgstr ""
-
-#: includes/class-admin.php:495
-msgid "A ogni pagina"
+#: includes/class-admin.php:486
+msgid "Meglio quadrata (PNG o JPG): nel popup si vede di circa 40 × 40 px."
 msgstr ""
 
 #: includes/class-admin.php:498
-msgid "Preavviso e chiusura in corso contano separatamente."
+msgid "Layout"
 msgstr ""
 
 #: includes/class-admin.php:500
-msgid "Ritardo di apparizione (secondi)"
+msgid "Modale centrato"
+msgstr ""
+
+#: includes/class-admin.php:500
+msgid "Su mobile diventa un pannello dal basso."
+msgstr ""
+
+#: includes/class-admin.php:501
+msgid "Barra in alto"
+msgstr ""
+
+#: includes/class-admin.php:501 includes/class-admin.php:502
+msgid "Non copre la pagina."
+msgstr ""
+
+#: includes/class-admin.php:502
+msgid "Barra in basso"
 msgstr ""
 
 #: includes/class-admin.php:503
-msgid "Dispositivi"
+msgid "Card nell'angolo"
 msgstr ""
 
-#: includes/class-admin.php:505
-msgid "Tutti"
-msgstr ""
-
-#: includes/class-admin.php:506
-msgid "Solo desktop"
-msgstr ""
-
-#: includes/class-admin.php:507
-msgid "Solo mobile"
-msgstr ""
-
-#: includes/class-admin.php:510
-msgid "Mobile = schermo fino a 767 px."
-msgstr ""
-
-#: includes/class-admin.php:514
-msgid "Pagine"
-msgstr ""
-
-#: includes/class-admin.php:516
-msgid "Tutto il sito"
-msgstr ""
-
-#: includes/class-admin.php:517
-msgid "Solo la homepage"
+#: includes/class-admin.php:503
+msgid "In basso a destra, discreta."
 msgstr ""
 
 #: includes/class-admin.php:518
+msgid "Colori, forma e icone"
+msgstr ""
+
+#. translators: 1: colore esadecimale, 2: da dove viene
+#: includes/class-admin.php:522
+#, php-format
+msgid "Colore trovato: %1$s, da %2$s."
+msgstr ""
+
+#: includes/class-admin.php:524
+msgid ""
+"Non ho trovato un colore principale in Elementor o nel tema: finché non c'è, "
+"il popup usa il colore scelto qui sotto."
+msgstr ""
+
+#: includes/class-admin.php:527
+msgid "Usa il colore principale del sito"
+msgstr ""
+
+#: includes/class-admin.php:527
+msgid ""
+"Lo prende dai colori globali di Elementor o dal tema, e segue le loro "
+"modifiche. Disattivalo per scegliere un colore diverso."
+msgstr ""
+
+#: includes/class-admin.php:531
+msgid "Colore principale (personalizzato)"
+msgstr ""
+
+#: includes/class-admin.php:532
+msgid "Colore del testo"
+msgstr ""
+
+#: includes/class-admin.php:533
+msgid "Colore di sfondo"
+msgstr ""
+
+#: includes/class-admin.php:539
+msgid "Arrotondamento degli angoli"
+msgstr ""
+
+#: includes/class-admin.php:541
+msgid "Mostra l'icona nel popup"
+msgstr ""
+
+#: includes/class-admin.php:541
+msgid ""
+"Spento: nessuna icona per nessuna chiusura. Acceso: ogni chiusura usa "
+"l'icona scelta nell'Elenco chiusure (della tipologia, un'altra, un'immagine "
+"o nessuna)."
+msgstr ""
+
+#: includes/class-admin.php:545
+msgid "Pulsanti"
+msgstr ""
+
+#: includes/class-admin.php:546
+msgid "Testo del pulsante di chiusura"
+msgstr ""
+
+#: includes/class-admin.php:547
+msgid "Pulsante CTA: testo (facoltativo)"
+msgstr ""
+
+#: includes/class-admin.php:547
+msgid "Contattaci"
+msgstr ""
+
+#: includes/class-admin.php:548
+msgid "Pulsante CTA: link"
+msgstr ""
+
+#: includes/class-admin.php:548
+msgid "Pagina, mailto: o tel:. Il pulsante appare solo con testo e link."
+msgstr ""
+
+#: includes/class-admin.php:552
+msgid "Comportamento"
+msgstr ""
+
+#: includes/class-admin.php:555
+msgid "Frequenza"
+msgstr ""
+
+#: includes/class-admin.php:557
+msgid "Una volta per sessione"
+msgstr ""
+
+#: includes/class-admin.php:558
+msgid "Una volta al giorno"
+msgstr ""
+
+#: includes/class-admin.php:559
+msgid "A ogni pagina"
+msgstr ""
+
+#: includes/class-admin.php:562
+msgid "Preavviso e chiusura in corso contano separatamente."
+msgstr ""
+
+#: includes/class-admin.php:564
+msgid "Ritardo di apparizione (secondi)"
+msgstr ""
+
+#: includes/class-admin.php:567
+msgid "Dispositivi"
+msgstr ""
+
+#: includes/class-admin.php:569
+msgid "Tutti"
+msgstr ""
+
+#: includes/class-admin.php:570
+msgid "Solo desktop"
+msgstr ""
+
+#: includes/class-admin.php:571
+msgid "Solo mobile"
+msgstr ""
+
+#: includes/class-admin.php:574
+msgid "Mobile = schermo fino a 767 px."
+msgstr ""
+
+#: includes/class-admin.php:578
+msgid "Pagine"
+msgstr ""
+
+#: includes/class-admin.php:580
+msgid "Tutto il sito"
+msgstr ""
+
+#: includes/class-admin.php:581
+msgid "Solo la homepage"
+msgstr ""
+
+#: includes/class-admin.php:582
 msgid "Solo le pagine indicate"
 msgstr ""
 
-#: includes/class-admin.php:519
+#: includes/class-admin.php:583
 msgid "Tutte tranne le pagine indicate"
 msgstr ""
 
-#: includes/class-admin.php:526
+#: includes/class-admin.php:590
 msgid "ID delle pagine"
 msgstr ""
 
-#: includes/class-admin.php:526
+#: includes/class-admin.php:590
 msgid ""
 "Separati da virgola, es. 12, 345. L'ID si legge nell'indirizzo di modifica "
 "della pagina (post=12)."
 msgstr ""
 
-#: includes/class-admin.php:530
+#: includes/class-admin.php:594
 msgid "Dati strutturati per Google"
 msgstr ""
 
-#: includes/class-admin.php:531
+#: includes/class-admin.php:595
 msgid ""
 "Aggiunge alla homepage un JSON-LD con gli orari speciali "
 "(specialOpeningHoursSpecification) per le chiusure dei prossimi 12 mesi. Se "
@@ -426,41 +528,41 @@ msgid ""
 "si contraddicano."
 msgstr ""
 
-#: includes/class-admin.php:532
+#: includes/class-admin.php:596
 msgid "Pubblica le chiusure nei dati strutturati"
 msgstr ""
 
-#: includes/class-admin.php:534
+#: includes/class-admin.php:598
 msgid "Nome dell'attività"
 msgstr ""
 
-#: includes/class-admin.php:535
+#: includes/class-admin.php:599
 msgid "Tipo Schema.org"
 msgstr ""
 
-#: includes/class-admin.php:535
+#: includes/class-admin.php:599
 msgid ""
 "LocalBusiness va bene per tutti; più preciso: Restaurant, Store, "
 "MedicalBusiness..."
 msgstr ""
 
-#: includes/class-admin.php:546
+#: includes/class-admin.php:610
 msgid "Fase"
 msgstr ""
 
-#: includes/class-admin.php:546
+#: includes/class-admin.php:610
 msgid "In corso"
 msgstr ""
 
-#: includes/class-admin.php:547
+#: includes/class-admin.php:611
 msgid "Chiusura da mostrare"
 msgstr ""
 
-#: includes/class-admin.php:549
+#: includes/class-admin.php:613
 msgid "Prova a tutto schermo"
 msgstr ""
 
-#: includes/class-admin.php:550
+#: includes/class-admin.php:614
 msgid ""
 "L'anteprima si aggiorna mentre modifichi. \"Prova a tutto schermo\" apre il "
 "popup vero in questa pagina: provalo anche con Tab ed Esc."
@@ -538,7 +640,7 @@ msgstr ""
 msgid "Siamo chiusi per le festività pasquali: riapriamo il {riapertura}."
 msgstr ""
 
-#: includes/class-closures.php:59
+#: includes/class-closures.php:59 includes/class-closures.php:103
 msgid "Ponte"
 msgstr ""
 
@@ -579,32 +681,104 @@ msgstr ""
 msgid "Siamo temporaneamente chiusi: riapriamo il {riapertura}."
 msgstr ""
 
-#: includes/class-closures.php:440
+#: includes/class-closures.php:91
+msgid "Sole"
+msgstr ""
+
+#: includes/class-closures.php:92
+msgid "Ombrellone"
+msgstr ""
+
+#: includes/class-closures.php:93
+msgid "Viaggio"
+msgstr ""
+
+#: includes/class-closures.php:94
+msgid "Foglia"
+msgstr ""
+
+#: includes/class-closures.php:95
+msgid "Fiocco di neve"
+msgstr ""
+
+#: includes/class-closures.php:96
+msgid "Albero di Natale"
+msgstr ""
+
+#: includes/class-closures.php:97
+msgid "Regalo"
+msgstr ""
+
+#: includes/class-closures.php:98
+msgid "Stella"
+msgstr ""
+
+#: includes/class-closures.php:99
+msgid "Uovo"
+msgstr ""
+
+#: includes/class-closures.php:100
+msgid "Fiore"
+msgstr ""
+
+#: includes/class-closures.php:101
+msgid "Festa"
+msgstr ""
+
+#: includes/class-closures.php:102
+msgid "Cuore"
+msgstr ""
+
+#: includes/class-closures.php:104
+msgid "Calendario"
+msgstr ""
+
+#: includes/class-closures.php:105
+msgid "Orologio"
+msgstr ""
+
+#: includes/class-closures.php:106
+msgid "Negozio"
+msgstr ""
+
+#: includes/class-closures.php:107
+msgid "Manutenzione"
+msgstr ""
+
+#: includes/class-closures.php:108
+msgid "Avviso"
+msgstr ""
+
+#: includes/class-closures.php:109
+msgid "Informazione"
+msgstr ""
+
+#: includes/class-closures.php:498
 msgid "Date mancanti"
 msgstr ""
 
-#: includes/class-closures.php:443
+#: includes/class-closures.php:501
 msgid "Disattivata"
 msgstr ""
 
 #. translators: %s: data di riapertura
-#: includes/class-closures.php:449
+#: includes/class-closures.php:507
 #, php-format
 msgid "In corso · riapre il %s"
 msgstr ""
 
 #. translators: %s: data di inizio
-#: includes/class-closures.php:453
+#: includes/class-closures.php:511
 #, php-format
 msgid "Preavviso in corso · chiude il %s"
 msgstr ""
 
 #. translators: 1: data di inizio, 2: data di fine
-#: includes/class-closures.php:459
+#: includes/class-closures.php:517
 #, php-format
 msgid "Prossima: %1$s – %2$s"
 msgstr ""
 
-#: includes/class-closures.php:462
+#: includes/class-closures.php:520
 msgid "Conclusa"
 msgstr ""

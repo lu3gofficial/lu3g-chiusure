@@ -74,6 +74,7 @@ final class LU3G_Chiusure_Admin {
 	public static function assets() {
 		global $wp_locale;
 		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_media(); // Libreria media per le icone personalizzate.
 		wp_enqueue_style( 'lu3g-chiusure-popup', LU3G_CHIUSURE_URL . 'assets/css/popup.css', array(), LU3G_CHIUSURE_VERSION );
 		wp_enqueue_style( 'lu3g-chiusure-admin', LU3G_CHIUSURE_URL . 'assets/css/admin.css', array(), LU3G_CHIUSURE_VERSION );
 		wp_add_inline_style( 'lu3g-chiusure-admin', '@font-face{font-family:"LU3G Manrope";src:url(' . esc_url( LU3G_CHIUSURE_URL . 'assets/fonts/manrope-latin-wght.woff2' ) . ') format("woff2");font-weight:200 800;font-display:swap}' );
@@ -100,6 +101,14 @@ final class LU3G_Chiusure_Admin {
 			'LU3G_CH',
 			array(
 				'types'      => $types,
+				'icons'      => array_map(
+					function ( $k ) {
+						return LU3G_Chiusure_Closures::icon( $k );
+					},
+					array_combine( array_keys( LU3G_Chiusure_Closures::icon_library() ), array_keys( LU3G_Chiusure_Closures::icon_library() ) )
+				),
+				'typeIcons'  => LU3G_Chiusure_Closures::TYPE_ICONS,
+				'siteColor'  => LU3G_Chiusure_Plugin::site_color(),
 				'settings'   => LU3G_Chiusure_Frontend::public_settings( LU3G_Chiusure_Plugin::settings() ),
 				'preview'    => self::preview_items(),
 				'closeLabel' => __( 'Chiudi', 'lu3g-chiusure' ),
@@ -116,6 +125,8 @@ final class LU3G_Chiusure_Admin {
 					'everyYear'     => __( 'ogni anno', 'lu3g-chiusure' ),
 					'noDates'       => __( 'Inserisci le date di inizio e fine.', 'lu3g-chiusure' ),
 					'unsaved'       => __( 'Modifiche non salvate', 'lu3g-chiusure' ),
+					'pickImage'     => __( 'Scegli l\'immagine dell\'icona', 'lu3g-chiusure' ),
+					'useImage'      => __( 'Usa questa immagine', 'lu3g-chiusure' ),
 				),
 			)
 		);
@@ -140,9 +151,12 @@ final class LU3G_Chiusure_Admin {
 				}
 			}
 			$t     = LU3G_Chiusure_Closures::texts( $c, $o['s'] === $o['e'] );
+			$ic    = LU3G_Chiusure_Closures::resolve_icon( $c );
 			$out[] = array(
 				'id'     => $c['id'],
 				'type'   => $c['type'],
+				'icon'   => $ic['key'],
+				'img'    => $ic['img'],
 				'notice' => (int) $c['notice_days'],
 				'name'   => $t['name'],
 				'nt'     => $t['notice_title'],
@@ -390,7 +404,7 @@ final class LU3G_Chiusure_Admin {
 		echo '<div class="lch-row' . ( $open ? ' is-open' : '' ) . '" data-row>';
 		echo '<div class="lch-row__head">';
 		echo '<span class="lch-handle" data-handle title="' . esc_attr__( 'Trascina per riordinare', 'lu3g-chiusure' ) . '" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>';
-		echo '<span class="lch-row__icon" data-icon>' . LU3G_Chiusure_Closures::icon( $c['type'] ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG del plugin
+		echo '<span class="lch-row__icon" data-icon>' . LU3G_Chiusure_Closures::icon( $c['type'] ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG del plugin (aggiornata da admin.js)
 		echo '<button type="button" class="lch-row__title" data-expand aria-expanded="' . ( $open ? 'true' : 'false' ) . '" aria-controls="' . esc_attr( $body ) . '"><strong data-title>' . esc_html( '' !== $c['name'] ? $c['name'] : __( 'Nuova chiusura', 'lu3g-chiusure' ) ) . '</strong><small data-summary></small></button>';
 		echo '<span class="lch-st lch-st--' . esc_attr( $st[0] ) . '" data-status>' . esc_html( $st[1] ) . '</span>';
 		echo '<label class="lch-toggle lch-toggle--compact" title="' . esc_attr__( 'Attiva o disattiva', 'lu3g-chiusure' ) . '"><input type="checkbox" name="' . esc_attr( $n ) . '[enabled]" value="1" ' . checked( ! empty( $c['enabled'] ), true, false ) . ' data-f="enabled"><span class="lch-toggle__ui" aria-hidden="true"></span><span class="screen-reader-text">' . esc_html__( 'Chiusura attiva', 'lu3g-chiusure' ) . '</span></label>';
@@ -416,6 +430,7 @@ final class LU3G_Chiusure_Admin {
 		echo '</div><div class="lch-recurring">';
 		self::toggle( $n . '[recurring]', __( 'Ricorrenza annuale', 'lu3g-chiusure' ), ! empty( $c['recurring'] ), __( 'Vale ogni anno: contano solo giorno e mese, anche a cavallo d\'anno (es. 24/12 → 06/01). Con la tipologia Pasqua le date seguono la Pasqua di ogni anno.', 'lu3g-chiusure' ), 'data-f="recurring"' );
 		echo '</div>';
+		self::icon_picker( $n, $key, $c );
 
 		echo '<div class="lch-phases">';
 		foreach ( array(
@@ -436,6 +451,40 @@ final class LU3G_Chiusure_Admin {
 			echo '</fieldset>';
 		}
 		echo '</div></div></div>';
+	}
+
+	/**
+	 * Scelta dell'icona di una chiusura: della tipologia, nessuna, una della libreria o un'immagine.
+	 *
+	 * @param string $n   Prefisso del nome dei campi.
+	 * @param string $key Chiave della riga.
+	 * @param array  $c   Chiusura.
+	 */
+	private static function icon_picker( string $n, string $key, array $c ) {
+		$cur   = (string) $c['icon'];
+		$img   = ! empty( $c['icon_image'] ) ? (string) wp_get_attachment_image_url( (int) $c['icon_image'], 'thumbnail' ) : '';
+		$tile  = function ( $value, $title, $ui, $extra = '' ) use ( $n, $cur ) {
+			printf(
+				'<label class="lch-ico%5$s" title="%2$s"><input type="radio" name="%1$s[icon]" value="%3$s" data-f="icon" %4$s><span class="lch-ico__ui">%6$s</span><span class="screen-reader-text">%2$s</span></label>',
+				esc_attr( $n ),
+				esc_attr( $title ),
+				esc_attr( $value ),
+				checked( $cur, $value, false ),
+				$extra ? ' ' . esc_attr( $extra ) : '',
+				$ui // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG del plugin o testo escapato
+			);
+		};
+		echo '<div class="lch-icons" role="radiogroup" aria-labelledby="lch-iconlbl-' . esc_attr( $key ) . '"><div class="lch-icons__head"><strong id="lch-iconlbl-' . esc_attr( $key ) . '">' . esc_html__( 'Icona', 'lu3g-chiusure' ) . '</strong><small>' . esc_html__( 'Quella della tipologia, un\'altra della libreria, un\'immagine tua o nessuna.', 'lu3g-chiusure' ) . '</small></div><div class="lch-icongrid">';
+		$tile( '', __( 'Della tipologia', 'lu3g-chiusure' ), '<span data-auto-icon>' . LU3G_Chiusure_Closures::icon( $c['type'] ) . '</span><em>' . esc_html__( 'Auto', 'lu3g-chiusure' ) . '</em>', 'lch-ico--wide' );
+		$tile( 'none', __( 'Nessuna icona', 'lu3g-chiusure' ), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M6 18L18 6"/></svg><em>' . esc_html__( 'Nessuna', 'lu3g-chiusure' ) . '</em>', 'lch-ico--wide' );
+		foreach ( LU3G_Chiusure_Closures::icon_library() as $k => $icon ) {
+			$tile( $k, $icon[0], LU3G_Chiusure_Closures::icon( $k ) );
+		}
+		$tile( 'image', __( 'Immagine dalla libreria media', 'lu3g-chiusure' ), '<img data-icon-thumb src="' . esc_url( $img ) . '" alt=""' . ( $img ? '' : ' hidden' ) . '><svg data-icon-noimg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"' . ( $img ? ' hidden' : '' ) . '><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/></svg><em>' . esc_html__( 'Immagine', 'lu3g-chiusure' ) . '</em>', 'lch-ico--wide' );
+		echo '</div>';
+		echo '<div class="lch-iconimg" data-icon-image' . ( 'image' === $cur ? '' : ' hidden' ) . '><input type="hidden" name="' . esc_attr( $n ) . '[icon_image]" value="' . (int) $c['icon_image'] . '" data-f="icon_image">';
+		echo '<button type="button" class="lch-btn lch-btn--small" data-pick-image>' . esc_html__( 'Scegli o carica l\'immagine', 'lu3g-chiusure' ) . '</button><small>' . esc_html__( 'Meglio quadrata (PNG o JPG): nel popup si vede di circa 40 × 40 px.', 'lu3g-chiusure' ) . '</small></div>';
+		echo '</div>';
 	}
 
 	/* ---------------------------------------------------------------- scheda 2: aspetto */
@@ -466,16 +515,31 @@ final class LU3G_Chiusure_Admin {
 		echo '</div></div>';
 
 		// Colori e forma.
-		echo '<div class="lch-card"><h3>' . esc_html__( 'Colori e forma', 'lu3g-chiusure' ) . '</h3><div class="lch-grid lch-grid--3">';
+		echo '<div class="lch-card"><h3>' . esc_html__( 'Colori, forma e icone', 'lu3g-chiusure' ) . '</h3>';
+		$site = LU3G_Chiusure_Plugin::site_color();
+		if ( $site ) {
+			/* translators: 1: colore esadecimale, 2: da dove viene */
+			$found = sprintf( __( 'Colore trovato: %1$s, da %2$s.', 'lu3g-chiusure' ), $site['color'], $site['source'] );
+		} else {
+			$found = __( 'Non ho trovato un colore principale in Elementor o nel tema: finché non c\'è, il popup usa il colore scelto qui sotto.', 'lu3g-chiusure' );
+		}
+		echo '<div class="lch-auto">';
+		self::toggle( $n . '[primary_mode]', __( 'Usa il colore principale del sito', 'lu3g-chiusure' ), 'auto' === $s['primary_mode'], __( 'Lo prende dai colori globali di Elementor o dal tema, e segue le loro modifiche. Disattivalo per scegliere un colore diverso.', 'lu3g-chiusure' ), 'data-primary-auto' );
+		echo '<p class="lch-found">' . ( $site ? '<span class="lch-swatch" style="background:' . esc_attr( $site['color'] ) . '"></span>' : '' ) . esc_html( $found ) . '</p></div>';
+		echo '<div class="lch-grid lch-grid--3">';
 		foreach ( array(
-			'primary' => __( 'Colore principale', 'lu3g-chiusure' ),
+			'primary' => __( 'Colore principale (personalizzato)', 'lu3g-chiusure' ),
 			'text'    => __( 'Colore del testo', 'lu3g-chiusure' ),
 			'bg'      => __( 'Colore di sfondo', 'lu3g-chiusure' ),
 		) as $k => $label ) {
 			// Etichetta fuori dal campo: wpColorPicker avvolge il genitore dell'input.
-			echo '<div class="lch-field"><label for="lch-color-' . esc_attr( $k ) . '">' . esc_html( $label ) . '</label><div><input type="text" class="lch-color" id="lch-color-' . esc_attr( $k ) . '" name="' . esc_attr( $n . '[' . $k . ']' ) . '" value="' . esc_attr( $s[ $k ] ) . '" data-default-color="' . esc_attr( LU3G_Chiusure_Plugin::default_settings()[ $k ] ) . '" data-s="' . esc_attr( $k ) . '"></div></div>';
+			$hide = 'primary' === $k && 'auto' === $s['primary_mode'] ? ' data-primary-custom hidden' : ( 'primary' === $k ? ' data-primary-custom' : '' );
+			echo '<div class="lch-field"' . $hide . '><label for="lch-color-' . esc_attr( $k ) . '">' . esc_html( $label ) . '</label><div><input type="text" class="lch-color" id="lch-color-' . esc_attr( $k ) . '" name="' . esc_attr( $n . '[' . $k . ']' ) . '" value="' . esc_attr( $s[ $k ] ) . '" data-default-color="' . esc_attr( LU3G_Chiusure_Plugin::default_settings()[ $k ] ) . '" data-s="' . esc_attr( $k ) . '"></div></div>';
 		}
-		echo '</div><label class="lch-field lch-range"><span>' . esc_html__( 'Arrotondamento degli angoli', 'lu3g-chiusure' ) . ' <output data-radius-out>' . (int) $s['radius'] . ' px</output></span><input type="range" name="' . esc_attr( $n ) . '[radius]" min="0" max="40" step="1" value="' . (int) $s['radius'] . '" data-s="radius"></label></div>';
+		echo '</div><label class="lch-field lch-range"><span>' . esc_html__( 'Arrotondamento degli angoli', 'lu3g-chiusure' ) . ' <output data-radius-out>' . (int) $s['radius'] . ' px</output></span><input type="range" name="' . esc_attr( $n ) . '[radius]" min="0" max="40" step="1" value="' . (int) $s['radius'] . '" data-s="radius"></label>';
+		echo '<div class="lch-auto">';
+		self::toggle( $n . '[show_icons]', __( 'Mostra l\'icona nel popup', 'lu3g-chiusure' ), ! empty( $s['show_icons'] ), __( 'Spento: nessuna icona per nessuna chiusura. Acceso: ogni chiusura usa l\'icona scelta nell\'Elenco chiusure (della tipologia, un\'altra, un\'immagine o nessuna).', 'lu3g-chiusure' ), 'data-s="show_icons"' );
+		echo '</div></div>';
 
 		// Pulsanti.
 		echo '<div class="lch-card"><h3>' . esc_html__( 'Pulsanti', 'lu3g-chiusure' ) . '</h3><div class="lch-grid lch-grid--3">';

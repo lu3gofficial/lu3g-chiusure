@@ -39,6 +39,17 @@ Lo script ha `nowprocket`, `data-no-optimize`, `data-no-defer`, `data-cfasync="f
 all'interazione da WP Rocket, LiteSpeed e Cloudflare. Al salvataggio il plugin svuota le cache di WP Rocket, LiteSpeed,
 W3 Total Cache, WP Super Cache, SiteGround, WP Fastest Cache e Breeze (`lu3g_chiusure_purge_cache` per disattivarlo).
 
+## Colore e icone
+- **Colore principale**: con "Usa il colore principale del sito" (predefinito sulle installazioni nuove) il plugin usa,
+  nell'ordine, il colore Primario del kit di Elementor (Sito → Colori globali), la tavolozza del tema/theme.json (slug
+  `primary`, `accent`, `accent-1`, `brand`), le personalizzazioni di Astra, JupiterX e i theme_mod `primary_color`,
+  `accent_color`... Il blu predefinito di Elementor (#6EC1E4, mai personalizzato) vale solo se non c'è altro. Se non
+  trova niente usa il colore scelto. Filtro `lu3g_chiusure_site_color`. Il colore si legge a ogni pagina: cambiandolo
+  in Elementor cambia anche il popup (dopo lo svuotamento della cache di pagina).
+- **Icone**: per ogni chiusura quella della tipologia, una delle 20 della libreria, un'immagine della libreria media
+  (decorativa, alt vuoto) o nessuna; "Mostra l'icona nel popup" le spegne tutte. L'icona usa il colore principale
+  se ha contrasto ≥ 3:1 con lo sfondo, altrimenti il colore del testo.
+
 ## Regole delle date
 - Non ricorrente: un periodo; riapertura vuota = giorno dopo la fine.
 - Ricorrente: contano giorno e mese. Se la fine cade prima dell'inizio nel calendario (24/12 → 06/01) il periodo
@@ -95,5 +106,8 @@ Release: Version + `LU3G_CHIUSURE_VERSION` + readme.txt, sezione nel CHANGELOG, 
   pagina e non spostano il focus.
 - **Pagine**: solo home, solo/tranne gli ID indicati (CSS e JS assenti dove il popup non serve).
 - **Riduci movimento** (impostazione del sistema): il popup compare con una sola dissolvenza.
+- **Colore automatico**: con l'interruttore acceso il pannello mostra il colore trovato e da dove viene; il popup lo
+  usa. Spento: torna il colore scelto. Un colore chiaro (es. giallo) lascia l'icona leggibile.
+- **Icone**: una chiusura con un'altra icona, una con un'immagine, una senza; "Mostra l'icona" spento le toglie tutte.
 - **Dati strutturati**: con l'opzione attiva la home contiene `specialOpeningHoursSpecification` con le chiusure dei
   prossimi 12 mesi.

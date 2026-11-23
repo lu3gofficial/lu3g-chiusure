@@ -98,6 +98,27 @@
 		return 0.2126 * lin( 0 ) + 0.7152 * lin( 2 ) + 0.0722 * lin( 4 ) > 0.179 ? '#111111' : '#ffffff';
 	};
 
+	/** Rapporto di contrasto WCAG tra due colori (come LU3G_Chiusure_Frontend::ratio). */
+	const ratio = ( a, b ) => {
+		const L = ( hex ) => {
+			let h = ( hex || '' ).replace( '#', '' );
+			if ( 3 === h.length ) {
+				h = h.replace( /./g, '$&$&' );
+			}
+			if ( 6 !== h.length ) {
+				return 1;
+			}
+			const lin = ( i ) => {
+				const c = parseInt( h.substr( i, 2 ), 16 ) / 255;
+				return c <= 0.03928 ? c / 12.92 : Math.pow( ( c + 0.055 ) / 1.055, 2.4 );
+			};
+			return 0.2126 * lin( 0 ) + 0.7152 * lin( 2 ) + 0.0722 * lin( 4 );
+		};
+		const x = L( a );
+		const y = L( b );
+		return ( Math.max( x, y ) + 0.05 ) / ( Math.min( x, y ) + 0.05 );
+	};
+
 	/** Apre il popup vero a tutto schermo (anteprima): i link non portano via dalla pagina. */
 	const openReal = ( D, p ) => {
 		$$( '.lu3g-ch:not(.lu3g-ch--preview)' ).forEach( ( el ) => el.remove() );
@@ -143,6 +164,10 @@
 		const empty = $( '[data-empty]', page );
 		const f = ( row, name ) => $( '[data-f="' + name + '"]', row );
 		const val = ( row, name ) => {
+			if ( 'icon' === name ) {
+				const r = $( '[data-f="icon"]:checked', row );
+				return r ? r.value : '';
+			}
 			const el = f( row, name );
 			if ( ! el ) {
 				return '';
@@ -179,12 +204,65 @@
 			return { s: shift( s, k ), e: shift( e, k ), r: shift( r, k ) };
 		};
 
+		/** Icona della riga come la vedrà il visitatore: { key, img } (entrambi vuoti = nessuna). */
+		const icon = ( row ) => {
+			const v = val( row, 'icon' );
+			const type = val( row, 'type' ) || 'summer';
+			const thumb = $( '[data-icon-thumb]', row );
+			if ( 'none' === v ) {
+				return { key: '', img: '' };
+			}
+			if ( 'image' === v && thumb && ! thumb.hidden && thumb.getAttribute( 'src' ) ) {
+				return { key: '', img: thumb.src };
+			}
+			return { key: cfg.icons[ v ] ? v : cfg.typeIcons[ type ], img: '' };
+		};
+
+		/** Libreria media di WordPress per l'icona personalizzata. */
+		const pickImage = ( row ) => {
+			if ( ! window.wp || ! window.wp.media ) {
+				return;
+			}
+			const frame = window.wp.media( {
+				title: cfg.i18n.pickImage,
+				library: { type: 'image' },
+				multiple: false,
+				button: { text: cfg.i18n.useImage },
+			} );
+			frame.on( 'select', () => {
+				const a = frame.state().get( 'selection' ).first().toJSON();
+				const thumb = $( '[data-icon-thumb]', row );
+				f( row, 'icon_image' ).value = a.id;
+				thumb.src = ( a.sizes && a.sizes.thumbnail ? a.sizes.thumbnail : a ).url;
+				thumb.hidden = false;
+				$( '[data-icon-noimg]', row ).hidden = true;
+				$( '[data-f="icon"][value="image"]', row ).checked = true;
+				refreshRow( row );
+				form.lch_mark();
+			} );
+			frame.open();
+		};
+
 		/** Aggiorna intestazione, icona, testi predefiniti (segnaposto grigi) e controllo date della riga. */
 		const refreshRow = ( row ) => {
 			const type = val( row, 'type' ) || 'summer';
 			const t = cfg.types[ type ] || cfg.types.summer;
 			$( '[data-title]', row ).textContent = val( row, 'name' ) || cfg.i18n.noName;
-			$( '[data-icon]', row ).innerHTML = t.icon;
+			// Icona: della tipologia, scelta, immagine o nessuna (intestazione della riga e riquadro "Auto").
+			const ic = icon( row );
+			const head = $( '[data-icon]', row );
+			head.textContent = '';
+			if ( ic.img ) {
+				const im = document.createElement( 'img' );
+				im.src = ic.img;
+				im.alt = '';
+				head.appendChild( im );
+			} else {
+				head.innerHTML = ic.key ? cfg.icons[ ic.key ] : '';
+			}
+			head.classList.toggle( 'is-none', ! ic.key && ! ic.img );
+			$( '[data-auto-icon]', row ).innerHTML = cfg.icons[ cfg.typeIcons[ type ] ] || '';
+			$( '[data-icon-image]', row ).hidden = 'image' !== val( row, 'icon' );
 			const p = period( row );
 			let sum = t.label;
 			if ( p ) {
@@ -264,6 +342,8 @@
 					refresh();
 					( next ? $( '[data-expand]', next ) : $( '[data-add]', page ) ).focus();
 				}
+			} else if ( btn.matches( '[data-pick-image]' ) ) {
+				pickImage( row );
 			} else if ( btn.matches( '[data-preview]' ) ) {
 				preview( row, btn.getAttribute( 'data-preview' ) );
 			}
@@ -279,6 +359,10 @@
 			const row = e.target.closest( '[data-row]' );
 			if ( row ) {
 				refreshRow( row );
+				// "Immagine" scelta senza ancora un'immagine: apre subito la libreria media.
+				if ( e.target.matches( '[data-f="icon"][value="image"]' ) && ! +f( row, 'icon_image' ).value ) {
+					pickImage( row );
+				}
 			}
 		} );
 
@@ -335,9 +419,12 @@
 			}
 			const type = val( row, 'type' ) || 'summer';
 			const t = cfg.types[ type ];
+			const ic = icon( row );
 			const c = {
 				id: 'preview',
 				type,
+				icon: ic.key,
+				img: ic.img,
 				notice: +val( row, 'notice_days' ) || 0,
 				name: val( row, 'name' ) || t.label,
 				nt: val( row, 'notice_title' ) || t.notice_title,
@@ -346,9 +433,7 @@
 				am: val( row, 'active_message' ) || t.active_message,
 			};
 			const o = { s: p.s, e: p.e, fs: fmt( p.s ), fe: fmt( p.e ), fr: fmt( p.r ) };
-			const icons = {};
-			icons[ type ] = t.icon;
-			openReal( { settings: cfg.settings, icons, i18n: { close: cfg.closeLabel } }, { c, o, ph } );
+			openReal( { settings: cfg.settings, icons: cfg.icons, i18n: { close: cfg.closeLabel } }, { c, o, ph } );
 		};
 
 		/** Prima di salvare: una chiusura attiva deve avere inizio e fine. */
@@ -390,7 +475,7 @@
 		if ( ! items.length ) {
 			const t = cfg.types.summer;
 			const s = todayLocal() + 10;
-			items = [ { id: 'sample', type: 'summer', notice: 7, name: t.label, nt: t.notice_title, nm: t.notice_message, at: t.active_title, am: t.active_message, occ: [ { s, e: s + 20, fs: fmt( s ), fe: fmt( s + 20 ), fr: fmt( s + 21 ) } ] } ];
+			items = [ { id: 'sample', type: 'summer', icon: 'sun', img: '', notice: 7, name: t.label, nt: t.notice_title, nm: t.notice_message, at: t.active_title, am: t.active_message, occ: [ { s, e: s + 20, fs: fmt( s ), fe: fmt( s + 20 ), fr: fmt( s + 21 ) } ] } ];
 		}
 		items.forEach( ( c, i ) => {
 			const o = document.createElement( 'option' );
@@ -403,15 +488,21 @@
 		const live = () => {
 			const s = cfg.settings;
 			const layout = ( $( '[name="settings[layout]"]:checked', form ) || {} ).value || 'modal';
-			const primary = hex( g( 'primary' ).value, s.primary );
+			// Colore del sito (se trovato) con "Usa il colore principale del sito", altrimenti quello scelto.
+			const auto = g( 'primary_mode' ).checked && cfg.siteColor;
+			const primary = auto ? cfg.siteColor.color : hex( g( 'primary' ).value, s.primary );
 			const url = g( 'cta_url' ).value.trim();
+			const text = hex( g( 'text' ).value, s.text );
+			const bg = hex( g( 'bg' ).value, s.bg );
 			return Object.assign( {}, s, {
 				layout,
 				primary,
 				onPrimary: contrast( primary ),
-				text: hex( g( 'text' ).value, s.text ),
-				bg: hex( g( 'bg' ).value, s.bg ),
+				accent: ratio( primary, bg ) >= 3 ? primary : text,
+				text,
+				bg,
 				radius: +g( 'radius' ).value || 0,
+				icons: g( 'show_icons' ).checked,
 				close: g( 'close_text' ).value.trim() || cfg.closeText,
 				ctaText: g( 'cta_text' ).value.trim(),
 				ctaUrl: /^(https?:|mailto:|tel:|\/)/i.test( url ) ? url : '',
@@ -419,9 +510,7 @@
 		};
 		const data = () => {
 			const c = items[ +pickSel.value || 0 ];
-			const icons = {};
-			icons[ c.type ] = cfg.types[ c.type ] ? cfg.types[ c.type ].icon : '';
-			return { D: { settings: live(), icons, i18n: { close: cfg.closeLabel } }, p: { c, o: c.occ[ 0 ], ph: phase } };
+			return { D: { settings: live(), icons: cfg.icons, i18n: { close: cfg.closeLabel } }, p: { c, o: c.occ[ 0 ], ph: phase } };
 		};
 
 		let timer = 0;
@@ -454,6 +543,12 @@
 			const x = data();
 			x.D.settings.delay = 0;
 			openReal( x.D, x.p );
+		} );
+
+		// Colore personalizzato visibile solo senza "Usa il colore principale del sito".
+		const autoBox = $( '[data-primary-auto]', form );
+		autoBox.addEventListener( 'change', () => {
+			$( '[data-primary-custom]', form ).hidden = autoBox.checked;
 		} );
 
 		// "ID delle pagine" solo per Solo/Tutte tranne.

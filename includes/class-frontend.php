@@ -121,11 +121,16 @@ final class LU3G_Chiusure_Frontend {
 			if ( ! $occ ) {
 				continue;
 			}
-			$t                   = LU3G_Chiusure_Closures::texts( $c, $occ[0]['s'] === $occ[0]['e'] );
-			$icons[ $c['type'] ] = LU3G_Chiusure_Closures::icon( $c['type'] );
-			$closures[]          = array(
+			$t  = LU3G_Chiusure_Closures::texts( $c, $occ[0]['s'] === $occ[0]['e'] );
+			$ic = LU3G_Chiusure_Closures::resolve_icon( $c, ! empty( $s['show_icons'] ) );
+			if ( '' !== $ic['key'] ) {
+				$icons[ $ic['key'] ] = LU3G_Chiusure_Closures::icon( $ic['key'] ); // Solo le icone usate.
+			}
+			$closures[] = array(
 				'id'     => $c['id'],
 				'type'   => $c['type'],
+				'icon'   => $ic['key'],   // Chiave in "icons" ('' = nessuna icona SVG).
+				'img'    => $ic['img'],   // Immagine della libreria media ('' = nessuna): decorativa, alt vuoto.
 				'notice' => (int) $c['notice_days'],
 				'name'   => $t['name'],
 				'nt'     => $t['notice_title'],
@@ -157,11 +162,15 @@ final class LU3G_Chiusure_Frontend {
 	 * @param array $s Impostazioni.
 	 */
 	public static function public_settings( array $s ): array {
-		$close = LU3G_Chiusure_Plugin::translate( (string) $s['close_text'], 'close_text' );
+		$close   = LU3G_Chiusure_Plugin::translate( (string) $s['close_text'], 'close_text' );
+		$primary = LU3G_Chiusure_Plugin::primary_color( $s ); // Colore del sito in modalità automatica.
 		return array(
 			'layout'    => $s['layout'],
-			'primary'   => $s['primary'],
-			'onPrimary' => self::contrast( (string) $s['primary'] ),
+			'primary'   => $primary,
+			'onPrimary' => self::contrast( $primary ),
+			// Icona: colore principale se si legge sullo sfondo (contrasto ≥ 3:1), altrimenti il colore del testo.
+			'accent'    => self::ratio( $primary, (string) $s['bg'] ) >= 3 ? $primary : (string) $s['text'],
+			'icons'     => ! empty( $s['show_icons'] ),
 			'text'      => $s['text'],
 			'bg'        => $s['bg'],
 			'radius'    => (int) $s['radius'],
@@ -172,6 +181,35 @@ final class LU3G_Chiusure_Frontend {
 			'delay'     => (int) $s['delay'],
 			'devices'   => $s['devices'],
 		);
+	}
+
+	/**
+	 * Luminanza relativa (WCAG) di un colore #rrggbb.
+	 *
+	 * @param string $hex Colore.
+	 */
+	public static function luminance( string $hex ): float {
+		$hex = LU3G_Chiusure_Plugin::hex( $hex );
+		if ( '' === $hex ) {
+			return 1.0;
+		}
+		$lin = function ( $c ) {
+			$c = hexdec( $c ) / 255;
+			return $c <= 0.03928 ? $c / 12.92 : ( ( $c + 0.055 ) / 1.055 ) ** 2.4;
+		};
+		return 0.2126 * $lin( substr( $hex, 1, 2 ) ) + 0.7152 * $lin( substr( $hex, 3, 2 ) ) + 0.0722 * $lin( substr( $hex, 5, 2 ) );
+	}
+
+	/**
+	 * Rapporto di contrasto WCAG tra due colori (da 1 a 21).
+	 *
+	 * @param string $a Colore.
+	 * @param string $b Colore.
+	 */
+	public static function ratio( string $a, string $b ): float {
+		$x = self::luminance( $a );
+		$y = self::luminance( $b );
+		return ( max( $x, $y ) + 0.05 ) / ( min( $x, $y ) + 0.05 );
 	}
 
 	/**
