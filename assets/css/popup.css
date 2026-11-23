@@ -1,0 +1,265 @@
+/* ==========================================================================
+ * LU3G Chiusure — popup. CSS puro, classi con prefisso lu3g-ch- per non scontrarsi con tema e page builder.
+ * Variabili impostate da popup.js sul contenitore: --lu3g-primary, --lu3g-on-primary, --lu3g-text, --lu3g-bg,
+ * --lu3g-radius. Le animazioni (solo transform/opacity) stanno dentro prefers-reduced-motion: no-preference.
+ * ======================================================================= */
+
+.lu3g-ch {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483000;
+	pointer-events: none; /* Solo box e overlay ricevono i clic: barre e card non bloccano la pagina. */
+	font-family: inherit;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+.lu3g-ch *,
+.lu3g-ch *::before,
+.lu3g-ch *::after { box-sizing: border-box; }
+
+.lu3g-ch-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(9, 9, 11, .5);
+	opacity: 0;
+	pointer-events: auto;
+	-webkit-backdrop-filter: blur(2px);
+	backdrop-filter: blur(2px);
+}
+
+.lu3g-ch-box {
+	position: absolute;
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	margin: 0;
+	padding: 24px;
+	border-radius: var(--lu3g-radius, 18px);
+	background: var(--lu3g-bg, #fff);
+	color: var(--lu3g-text, #18181b);
+	box-shadow: 0 24px 60px -12px rgba(0, 0, 0, .28), 0 2px 8px rgba(0, 0, 0, .06);
+	opacity: 0;
+	pointer-events: auto;
+	text-align: left;
+}
+.lu3g-ch-box:focus { outline: none; }
+.lu3g-ch-box:focus-visible { outline: 2px solid var(--lu3g-primary, #0f766e); outline-offset: 2px; }
+
+.lu3g-ch.is-open .lu3g-ch-overlay,
+.lu3g-ch.is-open .lu3g-ch-box { opacity: 1; }
+
+/* -------------------------------------------------------------- contenuto */
+
+.lu3g-ch .lu3g-ch-icon {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 16px;
+	background: var(--lu3g-primary, #0f766e);
+	background: color-mix(in srgb, var(--lu3g-primary, #0f766e) 13%, transparent);
+	color: var(--lu3g-primary, #0f766e);
+}
+.lu3g-ch .lu3g-ch-icon svg { display: block; width: 28px; height: 28px; }
+.lu3g-ch-body { flex: 1 1 auto; min-width: 0; }
+.lu3g-ch .lu3g-ch-title {
+	margin: 0 0 6px;
+	padding: 0 28px 0 0;
+	color: inherit;
+	font-size: 19px;
+	font-weight: 700;
+	line-height: 1.3;
+	letter-spacing: -.01em;
+}
+.lu3g-ch .lu3g-ch-msg {
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	font-size: 15px;
+	opacity: .82;
+	white-space: pre-line; /* Gli a capo del messaggio restano a capo. */
+}
+.lu3g-ch-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+/* Pulsanti: reset completo per non ereditare gli stili dei pulsanti del tema. */
+.lu3g-ch .lu3g-ch-btn,
+.lu3g-ch .lu3g-ch-x {
+	all: unset;
+	box-sizing: border-box;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+.lu3g-ch .lu3g-ch-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 0 20px;
+	border: 1.5px solid currentColor;
+	border-radius: min(var(--lu3g-radius, 18px), 999px);
+	color: inherit;
+	font-family: inherit;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	transition: opacity .15s;
+}
+.lu3g-ch .lu3g-ch-btn--cta {
+	border-color: var(--lu3g-primary, #0f766e);
+	background: var(--lu3g-primary, #0f766e);
+	color: var(--lu3g-on-primary, #fff);
+}
+.lu3g-ch .lu3g-ch-btn:hover { opacity: .85; }
+.lu3g-ch .lu3g-ch-x {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	color: inherit;
+	opacity: .6;
+}
+.lu3g-ch .lu3g-ch-x:hover { opacity: 1; background: rgba(127, 127, 127, .14); }
+.lu3g-ch .lu3g-ch-x svg { display: block; }
+.lu3g-ch .lu3g-ch-btn:focus-visible,
+.lu3g-ch .lu3g-ch-x:focus-visible { outline: 2px solid var(--lu3g-primary, #0f766e); outline-offset: 2px; opacity: 1; }
+
+/* -------------------------------------------------------------- layout */
+
+/* Modale centrato. */
+.lu3g-ch--modal .lu3g-ch-box {
+	top: 50%;
+	left: 50%;
+	flex-direction: column;
+	align-items: center;
+	width: min(440px, calc(100% - 32px));
+	max-height: calc(100% - 32px);
+	overflow: auto;
+	padding: 32px 28px 26px;
+	text-align: center;
+	transform: translate(-50%, -50%);
+}
+.lu3g-ch--modal .lu3g-ch-title { padding: 0; font-size: 21px; }
+.lu3g-ch--modal .lu3g-ch-actions { justify-content: center; }
+
+/* Barre in alto e in basso: tutta la larghezza, contenuto in riga. */
+.lu3g-ch--top .lu3g-ch-box,
+.lu3g-ch--bottom .lu3g-ch-box {
+	left: 0;
+	right: 0;
+	align-items: center;
+	padding: 14px max(56px, calc((100% - 1100px) / 2)) 14px max(20px, calc((100% - 1100px) / 2));
+	border-radius: 0;
+}
+.lu3g-ch--top .lu3g-ch-box { top: var(--wp-admin--admin-bar--height, 0px); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .25); }
+.lu3g-ch--bottom .lu3g-ch-box { bottom: 0; box-shadow: 0 -10px 30px -10px rgba(0, 0, 0, .25); }
+.lu3g-ch--top .lu3g-ch-icon,
+.lu3g-ch--bottom .lu3g-ch-icon { width: 40px; height: 40px; border-radius: 12px; }
+.lu3g-ch--top .lu3g-ch-icon svg,
+.lu3g-ch--bottom .lu3g-ch-icon svg { width: 22px; height: 22px; }
+.lu3g-ch--top .lu3g-ch-body,
+.lu3g-ch--bottom .lu3g-ch-body { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.lu3g-ch--top .lu3g-ch-title,
+.lu3g-ch--bottom .lu3g-ch-title { margin: 0; padding: 0; font-size: 16px; }
+.lu3g-ch--top .lu3g-ch-msg,
+.lu3g-ch--bottom .lu3g-ch-msg { flex: 1 1 260px; font-size: 14px; }
+.lu3g-ch--top .lu3g-ch-actions,
+.lu3g-ch--bottom .lu3g-ch-actions { margin: 0; }
+.lu3g-ch--top .lu3g-ch-btn,
+.lu3g-ch--bottom .lu3g-ch-btn { min-height: 38px; padding: 0 16px; font-size: 14px; }
+.lu3g-ch--top .lu3g-ch-x,
+.lu3g-ch--bottom .lu3g-ch-x { top: 50%; right: 12px; margin-top: -18px; }
+
+/* Card nell'angolo in basso a destra. */
+.lu3g-ch--corner .lu3g-ch-box {
+	right: 20px;
+	bottom: 20px;
+	width: min(380px, calc(100% - 32px));
+	padding: 20px;
+}
+.lu3g-ch--corner .lu3g-ch-icon { width: 44px; height: 44px; border-radius: 14px; }
+.lu3g-ch--corner .lu3g-ch-icon svg { width: 24px; height: 24px; }
+.lu3g-ch--corner .lu3g-ch-title { font-size: 17px; }
+.lu3g-ch--corner .lu3g-ch-msg { font-size: 14px; }
+.lu3g-ch--corner .lu3g-ch-btn { min-height: 40px; padding: 0 16px; font-size: 14px; }
+
+/* Blocca lo scorrimento della pagina dietro al modale (solo html: con anche body la pagina tornerebbe in cima). */
+html.lu3g-ch-lock { overflow: hidden !important; }
+
+/* -------------------------------------------------------------- mobile */
+
+@media (max-width: 600px) {
+	/* Il modale diventa un bottom sheet. */
+	.lu3g-ch--modal .lu3g-ch-box {
+		top: auto;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		max-height: 88%;
+		padding: 30px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+		border-radius: var(--lu3g-radius, 18px) var(--lu3g-radius, 18px) 0 0;
+		transform: none;
+	}
+	.lu3g-ch--modal .lu3g-ch-box::before {
+		content: "";
+		position: absolute;
+		top: 9px;
+		left: 50%;
+		width: 40px;
+		height: 4px;
+		margin-left: -20px;
+		border-radius: 4px;
+		background: currentColor;
+		opacity: .18;
+	}
+	.lu3g-ch--modal .lu3g-ch-actions { flex-direction: column-reverse; }
+	.lu3g-ch--modal .lu3g-ch-btn { width: 100%; }
+	.lu3g-ch--top .lu3g-ch-box,
+	.lu3g-ch--bottom .lu3g-ch-box { align-items: flex-start; padding: 14px 52px 14px 16px; }
+	.lu3g-ch--top .lu3g-ch-x,
+	.lu3g-ch--bottom .lu3g-ch-x { top: 8px; margin-top: 0; }
+	.lu3g-ch--top .lu3g-ch-icon,
+	.lu3g-ch--bottom .lu3g-ch-icon { display: none; }
+	.lu3g-ch--bottom .lu3g-ch-box { padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+	.lu3g-ch--corner .lu3g-ch-box { right: 12px; bottom: 12px; left: 12px; width: auto; }
+}
+@media (max-width: 782px) {
+	/* La barra di amministrazione di WordPress su mobile non è fissa: la barra in alto parte da 0. */
+	.lu3g-ch--top .lu3g-ch-box { top: 0; }
+}
+
+/* -------------------------------------------------------------- animazioni */
+
+@media (prefers-reduced-motion: no-preference) {
+	.lu3g-ch-overlay { transition: opacity .3s ease; }
+	.lu3g-ch-box { transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
+	.lu3g-ch--modal .lu3g-ch-box { transform: translate(-50%, -46%) scale(.96); }
+	.lu3g-ch--top .lu3g-ch-box { transform: translateY(-100%); }
+	.lu3g-ch--bottom .lu3g-ch-box { transform: translateY(100%); }
+	.lu3g-ch--corner .lu3g-ch-box { transform: translateY(16px) scale(.98); }
+	.lu3g-ch--modal.is-open .lu3g-ch-box { transform: translate(-50%, -50%) scale(1); }
+	.lu3g-ch--top.is-open .lu3g-ch-box,
+	.lu3g-ch--bottom.is-open .lu3g-ch-box,
+	.lu3g-ch--corner.is-open .lu3g-ch-box { transform: none; }
+	@media (max-width: 600px) {
+		.lu3g-ch--modal .lu3g-ch-box { transform: translateY(100%); }
+		.lu3g-ch--modal.is-open .lu3g-ch-box { transform: none; }
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	/* Solo dissolvenza, senza movimento. */
+	.lu3g-ch-overlay,
+	.lu3g-ch-box { transition: opacity .2s linear; }
+}
+
+/* -------------------------------------------------------------- anteprima nel pannello */
+
+.lu3g-ch--preview { position: absolute; z-index: 1; }
